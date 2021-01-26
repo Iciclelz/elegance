@@ -1,0 +1,129 @@
+﻿<Controls:MetroWindow x:Name="juxtaposeWindow" x:Class="Elegance.Windows.JuxtaposeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Elegance.Windows"
+        xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        TitleCaps="False"
+        Title="Elegance" Height="700" Width="1200" WindowState="Maximized" Icon="/Elegance;component/elegance.ico" Style="{DynamicResource VSWindowStyleKey}" SizeChanged="juxtaposeWindow_SizeChanged">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <RoutedUICommand x:Key="GotoLine" Text="Goes to the specified line." />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Controls:MetroWindow.CommandBindings>
+        <CommandBinding x:Name="openCommandBinding" Command="Open" Executed="openCommandBinding_Executed"/>
+        <CommandBinding x:Name="saveCommandBinding" Command="Save" Executed="saveCommandBinding_Executed"/>
+        <CommandBinding x:Name="saveAsCommandBinding" Command="SaveAs" Executed="saveAsCommandBinding_Executed"/>
+
+        <CommandBinding x:Name="gotoLineCommandBinding" Command="{StaticResource GotoLine}" Executed="gotoLineCommandBinding_Executed"/>
+    </Controls:MetroWindow.CommandBindings>
+    <Controls:MetroWindow.InputBindings>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="Save"/>
+        <KeyBinding Key="S" Modifiers="Control + Shift" Command="SaveAs"/>
+
+        <KeyBinding Key="G" Modifiers="Ctrl" Command="{StaticResource GotoLine}"/>
+    </Controls:MetroWindow.InputBindings>
+    <Grid>
+        <Menu Height="20" VerticalAlignment="Top">
+            <MenuItem Header="File">
+                <MenuItem x:Name="newFileLeftMenuItem" Header="New File Left" Click="newFileLeftMenuItem_Click"/>
+                <MenuItem x:Name="newFileRightMenuItem" Header="New File Right" Click="newFileRightMenuItem_Click"/>
+                <MenuItem x:Name="openFileLeftMenuItem" Header="Open File Left..." InputGestureText="Ctrl+O" Click="openFileLeftMenuItem_Click"/>
+                <MenuItem x:Name="openFileRightMenuItem" Header="Open File Right..." InputGestureText="Ctrl+O" Click="openFileRightMenuItem_Click"/>
+                <MenuItem x:Name="saveMenuLeftItem" Header="Save Left" InputGestureText="Ctrl+S" Click="saveMenuLeftItem_Click"/>
+                <MenuItem x:Name="saveMenuRightItem" Header="Save Right" InputGestureText="Ctrl+S" Click="saveMenuRightItem_Click"/>
+                <MenuItem x:Name="saveAsMenuLeftItem" Header="Save As Left..." InputGestureText="Ctrl+Shift+S" Click="saveAsMenuLeftItem_Click"/>
+                <MenuItem x:Name="saveAsMenuRightItem" Header="Save As Right..." InputGestureText="Ctrl+Shift+S" Click="saveAsMenuRightItem_Click"/>
+                <Separator/>
+                <MenuItem x:Name="exitMenuItem" Header="Exit" Click="exitMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem x:Name="editMenuItem" Header="Edit">
+                <MenuItem Command="Undo" Header="Undo" InputGestureText="Ctrl+Z"/>
+                <MenuItem Command="Redo" Header="Redo" InputGestureText="Ctrl+Y"/>
+                <Separator/>
+                <MenuItem Command="Cut" Header="Cut" InputGestureText="Ctrl+X"/>
+                <MenuItem Command="Copy" Header="Copy" InputGestureText="Ctrl+C"/>
+                <MenuItem Command="Paste" Header="Paste" InputGestureText="Ctrl+V"/>
+                <Separator/>
+                <MenuItem Command="Find" Header="Find" InputGestureText="Ctrl+F"/>
+                <MenuItem Command="{StaticResource GotoLine}" Header="Go to Line" InputGestureText="Ctrl+G"/>
+                <Separator/>
+                <MenuItem Command="SelectAll" Header="Select All" InputGestureText="Ctrl+A"/>
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem x:Name="fullScreenMenuItem" Header="Full Screen" IsCheckable="True" Checked="fullScreenMenuItem_Checked" Unchecked="fullScreenMenuItem_Unchecked"/>
+            </MenuItem>
+        </Menu>
+        <TabControl x:Name="leftTabControl" Margin="0,20,600,35" AllowDrop="True" Drop="leftTabControl_Drop">
+            <TabItem x:Name="leftTabItem" Header="Untitled">
+                <avalonEdit:TextEditor x:Name="leftTextEditor" FontFamily="Consolas" SyntaxHighlighting="C#" FontSize="12pt" ShowLineNumbers="True" Foreground="White" TextChanged="leftTextEditor_TextChanged">
+                    <avalonEdit:TextEditor.Resources>
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                    </avalonEdit:TextEditor.Resources>
+                    <avalonEdit:TextEditor.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="Undo" Header="Undo" InputGestureText="Ctrl+Z"/>
+                            <MenuItem Command="Redo" Header="Redo" InputGestureText="Ctrl+Y"/>
+                            <Separator/>
+                            <MenuItem Command="Cut" Header="Cut" InputGestureText="Ctrl+X"/>
+                            <MenuItem Command="Copy" Header="Copy" InputGestureText="Ctrl+C"/>
+                            <MenuItem Command="Paste" Header="Paste" InputGestureText="Ctrl+V"/>
+                            <Separator/>
+                            <MenuItem Command="Find" Header="Find" InputGestureText="Ctrl+F"/>
+                            <MenuItem Command="{StaticResource GotoLine}"  Header="Go to Line" InputGestureText="Ctrl+G"/>
+                            <Separator/>
+                            <MenuItem Command="SelectAll" Header="Select All" InputGestureText="Ctrl+A"/>
+                        </ContextMenu>
+                    </avalonEdit:TextEditor.ContextMenu>
+                </avalonEdit:TextEditor>
+            </TabItem>
+        </TabControl>
+        <TabControl x:Name="rightTabControl" Margin="600,20,0,35" AllowDrop="True" Drop="rightTabControl_Drop">
+            <TabItem x:Name="rightTabItem" Header="Untitled">
+                <avalonEdit:TextEditor x:Name="rightTextEditor" FontFamily="Consolas" SyntaxHighlighting="C#" FontSize="12pt" ShowLineNumbers="True" Foreground="White" TextChanged="rightTextEditor_TextChanged">
+                    <avalonEdit:TextEditor.Resources>
+                        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                    </avalonEdit:TextEditor.Resources>
+                    <avalonEdit:TextEditor.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="Undo" Header="Undo" InputGestureText="Ctrl+Z"/>
+                            <MenuItem Command="Redo" Header="Redo" InputGestureText="Ctrl+Y"/>
+                            <Separator/>
+                            <MenuItem Command="Cut" Header="Cut" InputGestureText="Ctrl+X"/>
+                            <MenuItem Command="Copy" Header="Copy" InputGestureText="Ctrl+C"/>
+                            <MenuItem Command="Paste" Header="Paste" InputGestureText="Ctrl+V"/>
+                            <Separator/>
+                            <MenuItem Command="Find" Header="Find" InputGestureText="Ctrl+F"/>
+                            <MenuItem Command="{StaticResource GotoLine}"  Header="Go to Line" InputGestureText="Ctrl+G"/>
+                            <Separator/>
+                            <MenuItem Command="SelectAll" Header="Select All" InputGestureText="Ctrl+A"/>
+                        </ContextMenu>
+                    </avalonEdit:TextEditor.ContextMenu>
+                </avalonEdit:TextEditor>
+            </TabItem>
+        </TabControl>
+        <StatusBar x:Name="leftStatusBar" Height="35" Margin="0,0,600,0" VerticalAlignment="Bottom">
+            <StatusBarItem DockPanel.Dock="Right">
+                <ComboBox x:Name="languageLeftComboBox" ItemsSource="{Binding HighlightingDefinitions, Source={x:Static avalonEdit:HighlightingManager.Instance}}" SelectedIndex="1" SelectionChanged="languageLeftComboBox_SelectionChanged"/>
+            </StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right" x:Name="caretLeftStatusBarItem"/>
+            <StatusBarItem x:Name="fullPathLeftStatusBarItem"/>
+        </StatusBar>
+        <StatusBar x:Name="rightStatusBar" Height="35" Margin="600,0,0,0" VerticalAlignment="Bottom">
+            <StatusBarItem DockPanel.Dock="Right">
+                <ComboBox x:Name="languageRightComboBox" ItemsSource="{Binding HighlightingDefinitions, Source={x:Static avalonEdit:HighlightingManager.Instance}}" SelectedIndex="1" SelectionChanged="languageRightComboBox_SelectionChanged"/>
+            </StatusBarItem>
+            <StatusBarItem DockPanel.Dock="Right" x:Name="caretRightStatusBarItem"/>
+            <StatusBarItem x:Name="fullPathRightStatusBarItem"/>
+        </StatusBar>
+    </Grid>
+</Controls:MetroWindow>
